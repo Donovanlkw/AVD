@@ -1,4 +1,5 @@
-### ---Create the resource group
+### --- https://docs.microsoft.com/en-us/azure/virtual-network/quick-create-powershell
+### --- Create the resource group
 $rg = @{
     Name = 'CreateVNetQS-rg'
     Location = 'EastUS'
@@ -23,3 +24,31 @@ $subnet = @{
     AddressPrefix = '10.0.0.0/24'
 }
 $subnetConfig = Add-AzVirtualNetworkSubnetConfig @subnet
+
+
+### --- Associate the subnet to the virtual network
+
+$virtualNetwork | Set-AzVirtualNetwork
+
+
+
+$vm1 = @{
+    ResourceGroupName = 'CreateVNetQS-rg'
+    Location = 'EastUS'
+    Name = 'myVM1'
+    VirtualNetworkName = 'myVNet'
+    SubnetName = 'default'
+}
+New-AzVM @vm1 -AsJob
+
+
+$vm2 = @{
+    ResourceGroupName = 'CreateVNetQS-rg'
+    Location = 'EastUS'
+    Name = 'myVM2'
+    VirtualNetworkName = 'myVNet'
+    SubnetName = 'default'
+}
+New-AzVM @vm2
+
+
