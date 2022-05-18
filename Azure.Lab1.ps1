@@ -13,7 +13,6 @@ New-AzResourceGroup -Name $ResourceGroupNameNET -Location $Location
 
 ################ Provisioning Availability Set
 $newAvailabilitySetbkPri = New-AzAvailabilitySet -Name $AvailabilitySet -ResourceGroupName $ResourceGroupName -Location $Location -Sku Aligned -PlatformFaultDomaincount 2 -PlatformUpdateDomainCount 5
-
 if ($newAvailabilitySetbkPri)
 {
 	Write-Output "Provisioning Availability Set Completed."
@@ -40,16 +39,16 @@ $subnetConfig = Add-AzVirtualNetworkSubnetConfig @subnet
 $virtualNetwork | Set-AzVirtualNetwork
 
 ################ Create a Storage Account ################ 
+New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sav2000abc -Location $Location -SkuName Standard_GRS -Kind StorageV2
 
 New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sav1000abc -Location $Location -SkuName Standard_GRS -Kind Storage
-New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sav2000abc -Location $Location -SkuName Standard_GRS -Kind StorageV2
 New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sav2000abc1 -Location $Location -SkuName Standard_GRS -Kind StorageV2  -EnableHierarchicalNamespace $true -EnableAzureActiveDirectoryDomainServicesForFile $true -EnableLargeFileShare
 New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sabs000abc -Location $Location -SkuName Standard_GRS -Kind BlobStorage -AccessTier Hot
 New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sabb000abc -Location $Location -SkuName Premium_LRS -Kind BlockBlobStorage -AccessTier Hot
 New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName safs000abc -Location $Location -SkuName Premium_LRS -Kind FileStorage -AccessTier Hot
 
 
-
+################ Create a new VM ################ 
 $vmName = 'vm-lab-win001'
 
 ################ Create a VM Configuration ################ 
