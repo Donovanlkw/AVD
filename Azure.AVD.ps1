@@ -13,3 +13,6 @@ $DesktopGroup= 'DesktopGroup'
 
 ####Create a host pool
 New-AzWvdHostPool -ResourceGroupName $ResourceGroupName  -Location $Location -Name $HOSTPool -WorkspaceName $workspacename -HostPoolType Pooled -LoadBalancerType  BreadthFirst -DesktopAppGroupName $DesktopGroup 
+
+
+https://docs.microsoft.com/en-us/azure/virtual-desktop/create-host-pools-powershell?tabs=azure-powershell
