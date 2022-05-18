@@ -1,14 +1,25 @@
 ################ Definition of Primary site ##################
 
 $Location = 'EastAsia'
-$ResourceGroupName = 'MyResourceGroup'
-$ResourceGroupNameNET = 'MyResourceGroupNET'
+$ResourceGroupName      = 'MyResourceGroup'
+$ResourceGroupNameNET   = 'MyResourceGroupNET'
+$AvailabilitySet	    = "AvailabilitySet"
 $vnet = 'MyVNet'
 $VMname= 'AVD11'
 
 ################ Create a ResrouceGroup ##################
 New-AzResourceGroup -Name $ResourceGroupName -Location $Location
 New-AzResourceGroup -Name $ResourceGroupNameNET -Location $Location
+
+################ Provisioning Availability Set
+$newAvailabilitySetbkPri = New-AzAvailabilitySet -Name $AvailabilitySet -ResourceGroupName $ResourceGroupName -Location $Location -Sku Aligned -PlatformFaultDomaincount 2 -PlatformUpdateDomainCount 5
+
+if ($newAvailabilitySetbkPri)
+{
+	Write-Output "Provisioning Availability Set Completed."
+} else{
+	Write-Error -Message $_.Exception
+}
 
 
 ################ Create a Virtual Network ##################
