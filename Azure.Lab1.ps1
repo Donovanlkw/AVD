@@ -29,13 +29,13 @@ $subnetConfig = Add-AzVirtualNetworkSubnetConfig @subnet
 $virtualNetwork | Set-AzVirtualNetwork
 
 ################ Create a Storage Account ################ 
-New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sabs999999999a -Location $Location -SkuName Standard_GRS -Kind BlobStorage
-New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sabb9999999999a -Location $Location -SkuName Standard_GRS -Kind BlockBlobStorage
-New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName safs9999999999a -Location $Location -SkuName Standard_GRS -Kind FileStorage
-New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sav19999999999a -Location $Location -SkuName Standard_GRS -Kind Storage
-New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sav29999999999a -Location $Location -SkuName Standard_GRS -Kind StorageV2
 
-
+New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sav1000abc -Location $Location -SkuName Standard_GRS -Kind Storage
+New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sav2000abc -Location $Location -SkuName Standard_GRS -Kind StorageV2
+New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sav2000abc1 -Location $Location -SkuName Standard_GRS -Kind StorageV2  -EnableHierarchicalNamespace $true -EnableAzureActiveDirectoryDomainServicesForFile $true -EnableLargeFileShare
+New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sabs000abc -Location $Location -SkuName Standard_GRS -Kind BlobStorage -AccessTier Hot
+New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sabb000abc -Location $Location -SkuName Premium_LRS -Kind BlockBlobStorage -AccessTier Hot
+New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName safs000abc -Location $Location -SkuName Premium_LRS -Kind FileStorage -AccessTier Hot
 
 
 
