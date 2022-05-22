@@ -1,0 +1,62 @@
+
+Alert, 
+- Email will only be sent to Azure AD user members of the Monitoring Reader role. Email will not be sent to Azure AD groups or service principals.
+
+AKS
+
+Admin
+- Users may join devices to Azure AD - This setting enables you to select the users who can register their devices as Azure AD joined devices. The default is All.
+- By default, the ones are global administrator and device owners (device administrators). This lead us to User1 and User2 only
+
+App Service Plan
+- The app must be running in the Standard, Premium, or Isolated tier in order for you to enable multiple deployment slots. 
+- If the app isn't already in the Standard, Premium, or Isolated tier, you receive a message that indicates the supported tiers for enabling staged publishing. At this point, you have the option to select Upgrade and go to the Scale tab of your app before continuing.
+- Scale up: Get more CPU, memory, disk space, and extra features like dedicated virtual machines (VMs), custom domains and certificates, staging slots, autoscaling, and more.
+- Creating one App Service Plan, you can support up to 10 Web Apps. Adding any of the other resources are pointless and not noted as a requirement.
+
+AzCopy , 
+- AzCopy is a command-line utility that you can use to copy blobs or files to or from a storage account.
+- Both Azure Active Directory (AD) and Shared Access Signature (SAS) token are supported for Blob storage.
+- Only Shared Access Signature (SAS) token is supported for File storage.
+
+Device
+- Groups can contain both registered and joined devices as members.
+- As a global administrator or cloud device administrator, you can manage the registered or joined devices. Intune Service administrators can update and delete devices. User administrator can manage users but not devices.
+- Group2 is configured for dynamic membership. The properties on which the membership of a device in a group of the type dynamic device are defined cannot be changed by either an end user or an user administrator.
+
+DNS 
+- wireServer
+- conditional forwarder
+- Forward lookup zone
+- Azure DNS provides automatic registration of virtual machines from a single virtual network that's linked to a private zone as a registration virtual network. 
+- Forward DNS resolution is supported across virtual networks that are linked to the private zone as resolution virtual networks. 
+- A specific virtual network can be linked to only one private DNS zone when automatic VM DNS registration is enabled", so if auto VM enabled only one zone.
+- Private DNS / Virtual Network link to VNET (1:1)
+- Azure DNS supports importing and exporting zone files by using the Azure command-line interface (CLI). Zone file import is not currently supported via Azure PowerShell or the Azure portal.
+https://docs.microsoft.com/en-us/azure/dns/dns-import-export
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Monitor
+-
+Create a alert in Azure when  more than two error event logged to the system log. 
+- Create Azure Log analytics workspace and configure
+- Install the MS Monitor Agent. 
+- create
+- 
+
+NSG/ASG
+-  can be associated with NICs.
