@@ -1,11 +1,16 @@
 ################ Definition of Primary site ##################
 
-$Location = 'EastAsia'
+$Location = 'westus'
 $ResourceGroupName      = 'MyResourceGroup'
 $ResourceGroupNameNET   = 'MyResourceGroupNET'
 $AvailabilitySet	    = "AvailabilitySet"
 $vnet = 'MyVNet'
+$subnet ='MySubnet'
+$NSGName = 'MyNSG'
+
+
 $VMname= 'AVD11'
+
 
 ################ Create a ResrouceGroup ##################
 New-AzResourceGroup -Name $ResourceGroupName -Location $Location
@@ -31,12 +36,17 @@ $vnet = @{
 $virtualNetwork = New-AzVirtualNetwork @vnet
 
 $subnet = @{
-    Name = 'default'
+    Name = $subnet 
     VirtualNetwork = $virtualNetwork
     AddressPrefix = '10.0.0.0/24'
 }
 $subnetConfig = Add-AzVirtualNetworkSubnetConfig @subnet
 $virtualNetwork | Set-AzVirtualNetwork
+
+################ Create a NSG ################ 
+$rdpRule = New-AzNetworkSecurityRuleConfig -Name rdp-rule -Description "Allow RDP" -Access Allow -Protocol Tcp -Direction Inbound -Priority 100 -SourceAddressPrefix Internet -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 3389
+New-AzNetworkSecurityGroup -Name $NSGName -ResourceGroupName $ResourceGroupNameNET  -Location $Location  -SecurityRules $rdpRule
+
 
 ################ Create a Storage Account ################ 
 New-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName sav2000abc -Location $Location -SkuName Standard_GRS -Kind StorageV2
