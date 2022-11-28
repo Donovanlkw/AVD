@@ -1,5 +1,5 @@
 
-$MasterServer = 'abc'
+$MasterServer = 'AZWVDPHE1787 '
 
 $resourceGroupName = '
 $location = 'eastasia' 
@@ -80,6 +80,8 @@ Add-Content $file 'Set-ExecutionPolicy restricted'
 Add-Content $file 'Unregister-ScheduledTask '  -NoNewline 
 Add-Content $file "$task " -NoNewline
 Add-Content $file '-Confirm:$false' 
+Add-Content $file 'del $file -force' 
+
 Add-Content $file 'shutdown -r -t 0' 
 
 Get-AppxPackage | Remove-AppxPackage -AllUsers 
