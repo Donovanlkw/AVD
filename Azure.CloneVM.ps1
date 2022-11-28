@@ -52,7 +52,7 @@ $Password = "Password1"
 $newvmname = "$env:computername"+"C3"
 
 $Encryptedpassword=$Password | ConvertTo-SecureString -Force -AsPlainText
-New-LocalUser $userid -Password $Password -FullName "tmp adm" -Description "tmp adm for Cloning"
+New-LocalUser $userid -Password $Encryptedpassword -FullName "tmp adm" -Description "tmp adm for Cloning"
 Add-LocalGroupMember -Group "Administrators" -Member $userid
 
 ###--- Create a schedule job for rename after reboot.
