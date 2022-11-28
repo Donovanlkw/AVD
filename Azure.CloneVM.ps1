@@ -71,11 +71,15 @@ Set-Content $file '$Domainuserid = "mfcgd\"'
 Add-Content $file '$userid = "tmpadmin"' 
 Add-Content $file '$Password = "Password1"' 
 Add-Content $file '$Domain= "MFCGD.COM"' 
+Add-Content $file '$Newvmname="' -NoNewline
+Add-Content $file "$Newvmname" -NoNewline
+Add-Content $file '"'
 Add-Content $file '$OUPath= "OU=VDI,OU=Win10,OU=Hong Kong,OU=Managed Computers,DC=MFCGD,DC=COM"' 
 Add-Content $file 'Set-ExecutionPolicy Unrestricted -force' 
 Add-Content $file 'add-computer -NewName $Newname –domainname $domain -OUPath $OUPath -Credential $domainuserid ' 
 Add-Content $file 'Remove-LocalUser -name $userid' 
 Add-Content $file 'Set-ExecutionPolicy restricted' 
+
 
 Add-Content $file 'Unregister-ScheduledTask '  -NoNewline 
 Add-Content $file "$task " -NoNewline
