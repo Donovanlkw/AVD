@@ -45,3 +45,11 @@ New-AzVM -ResourceGroupName $destinationResourceGroup -Location $location -VM $v
 
 ####Powershell run inside the windwos 10.
 
+
+$userid = "tmpadmin"
+$Password = "Password1"
+
+New-LocalUser $userid -Password $Password -FullName "tmp adm" -Description "tmp adm for Cloning"
+Add-LocalGroupMember -Group "Administrators" -Member $userid
+Get-AppxPackage -all * | Remove-AppxPackage -AllUsers 
+%WINDIR%\system32\sysprep\sysprep.exe /generalize /reboot
