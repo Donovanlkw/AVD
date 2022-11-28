@@ -80,11 +80,11 @@ Add-Content $file 'Set-ExecutionPolicy restricted'
 Add-Content $file 'Unregister-ScheduledTask '  -NoNewline 
 Add-Content $file "$task " -NoNewline
 Add-Content $file '-Confirm:$false' 
-Add-Content $file 'del $file -force' 
+#Add-Content $file 'del $file ' 
 
 Add-Content $file 'shutdown -r -t 0' 
 
-Get-AppxPackage | Remove-AppxPackage -AllUsers 
+Get-AppxPackage -AllUsers | Remove-AppxPackage 
 C:\Windows\system32\sysprep\sysprep.exe /generalize /oobe /reboot
 
 ###################################################################################################
