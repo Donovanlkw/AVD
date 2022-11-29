@@ -1,7 +1,7 @@
 
-$MasterServer = 'AZWVDPHE1787 '
+$MasterServer = ''
 
-$resourceGroupName = '
+$resourceGroupName = ''
 $location = 'eastasia' 
 $VMSize = "Standard_D8_v3"
 $disktype="StandardSSD_LRS"
@@ -9,17 +9,17 @@ $disktype="StandardSSD_LRS"
 $VNet=""
 $SubnetName = ""
 
-Select-AzSubscription xxx
+Select-AzSubscription MFC-Asia-Production-Internal-S4-Citrix
 $dateStr = Get-Date -Format "yyyyMMdd"
 $SnapshotName= $MasterServer+"-"+$dateStr+".snapshot"
 
 #Create a virtual machine from a managed disk
-$NewVMName = $MasterServer+"C1"
-$NewDiskName = $MasterServer+"C1-"+$dateStr
-$newVMNIcName= $MasterServer+"C1-"+"NIC"
+$NewVMName = $MasterServer+"C3"
+$NewDiskName = $MasterServer+"C3-"+$dateStr
+$newVMNIcName= $MasterServer+"C3-"+"NIC"
 $newNICRGName= $resourceGroupName
 $destinationResourceGroup=$resourceGroupName
-$newRGName=$resourceGroupName
+$newtags += @{costcenter="3001"}
 
 
 ### --- Taking Snapshot
@@ -38,34 +38,25 @@ $nic = New-AzNetworkInterface -Name $newVMNIcName -ResourceGroupName $destinatio
 
 # Create the new VM
 $vmConfig = New-AzVMConfig -VMName $NewvmName -VMSize $VMSize
+
 $vm = Add-AzVMNetworkInterface -VM $vmConfig -Id $nic.Id
-$vm = Set-AzVMOSDisk -VM $vm -ManagedDiskId $osDisk.Id -StorageAccountType Standard_LRS -DiskSizeInGB 128 -CreateOption Attach -Windows
-New-AzVM -ResourceGroupName $destinationResourceGroup -Location $location -VM $vm
+$vm = Set-AzVMOSDisk -VM $vm -ManagedDiskId $osDisk.Id -StorageAccountType Standard_LRS -DiskSizeInGB 128 -CreateOption Attach -Windows 
+New-AzVM -ResourceGroupName $destinationResourceGroup -Location $location -VM $vm -tag $newtags
 
 
 ### === Powershell run inside the windwos 10.
 
 
 ### === 1st reboot === ###
+
+
+
+### Create a Powershell script file for configure after reboot
 $userid = "tmpadmin"
 $Password = "Password1"
 $newvmname = "$env:computername"+"C3"
-
-$Encryptedpassword=$Password | ConvertTo-SecureString -Force -AsPlainText
-New-LocalUser $userid -Password $Encryptedpassword -FullName "tmp adm" -Description "tmp adm for Cloning"
-Add-LocalGroupMember -Group "Administrators" -Member $userid
-
-###--- Create a schedule job for rename after reboot.
-
-$task="nenew"
+$task="nename"
 $file = "c:\$task.ps1"
-Get-ScheduledTask
-$resumeActionscript = "-WindowStyle Normal -NoLogo -NoProfile -File $file"
-$act = New-ScheduledTaskAction -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -Argument $resumeActionscript
-$trig = New-ScheduledTaskTrigger -AtStartup
-Register-ScheduledTask -TaskName $task -user $userid -password $Password -Action $act -Trigger $trig -RunLevel Highest
-
-### Create a Powershell script file for configure RDS script
 New-Item $file -force
 Set-Content $file '$Domainuserid = "mfcgd\"'
 Add-Content $file '$userid = "tmpadmin"' 
@@ -88,7 +79,25 @@ Add-Content $file '-Confirm:$false'
 
 Add-Content $file 'shutdown -r -t 0' 
 
+
+
+$Encryptedpassword=$Password | ConvertTo-SecureString -Force -AsPlainText
+New-LocalUser $userid -Password $Encryptedpassword -FullName "tmp adm" -Description "tmp adm for Cloning"
+Add-LocalGroupMember -Group "Administrators" -Member $userid
+
+
 Get-AppxPackage -AllUsers | Remove-AppxPackage 
 C:\Windows\system32\sysprep\sysprep.exe /generalize /oobe /reboot
 
 ###################################################################################################
+
+
+
+###--- Create a schedule job for rename after reboot.
+
+
+Get-ScheduledTask
+$resumeActionscript = "-WindowStyle Normal -NoLogo -NoProfile -File $file"
+$act = New-ScheduledTaskAction -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -Argument $resumeActionscript
+$trig = New-ScheduledTaskTrigger -AtStartup
+Register-ScheduledTask -TaskName $task -user $userid -password $Password -Action $act -Trigger $trig -RunLevel Highest
