@@ -63,7 +63,7 @@ Add-Content $file '$OUPath= "OU=VDI,OU=Win10,OU=Hong Kong,OU=Managed Computers,D
 Add-Content $file 'Set-ExecutionPolicy Unrestricted -force' 
 Add-Content $file 'add-computer -NewName $newvmname –domainname $domain -OUPath $OUPath -Credential $domainuserid ' 
 Add-Content $file 'Remove-LocalUser -name $userid' 
-Add-Content $file 'Set-ExecutionPolicy restricted' 
+Add-Content $file 'Set-ExecutionPolicy restricted -Force' 
 Add-Content $file 'del ' -NoNewline
 Add-Content $file "$file" -NoNewline
 Add-Content $file ''
