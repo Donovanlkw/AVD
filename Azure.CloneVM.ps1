@@ -48,8 +48,8 @@ New-AzVM -ResourceGroupName $destinationResourceGroup -Location $location -VM $v
 ### Create a Powershell script file for configure after reboot
 $userid = "tmpadmin"
 $Password = "Password1"
-$newvmname = "$env:computername"+"C3"
-$task="nename"
+$newvmname = "$env:computername"+"C"
+$task="rename"
 $file = "c:\$task.ps1"
 New-Item $file -force
 Set-Content $file '$Domainuserid = "mfcgd\"'
@@ -70,24 +70,13 @@ Add-Content $file ''
 Add-Content $file 'shutdown -r -t 0' 
 
 
-
 $Encryptedpassword=$Password | ConvertTo-SecureString -Force -AsPlainText
 New-LocalUser $userid -Password $Encryptedpassword -FullName "tmp adm" -Description "tmp adm for Cloning"
 Add-LocalGroupMember -Group "Administrators" -Member $userid
-
-
 Get-AppxPackage -AllUsers | Remove-AppxPackage 
 C:\Windows\system32\sysprep\sysprep.exe /generalize /oobe /reboot
 
-###################################################################################################
+### 2nd reboot . run the script ---###
+C:\rename.ps1
 
 
-
-###--- Create a schedule job for rename after reboot.
-
-
-Get-ScheduledTask
-$resumeActionscript = "-WindowStyle Normal -NoLogo -NoProfile -File $file"
-$act = New-ScheduledTaskAction -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -Argument $resumeActionscript
-$trig = New-ScheduledTaskTrigger -AtStartup
-Register-ScheduledTask -TaskName $task -user $userid -password $Password -Action $act -Trigger $trig -RunLevel Highest
