@@ -64,9 +64,8 @@ Add-Content $file 'Set-ExecutionPolicy Unrestricted -force'
 Add-Content $file 'add-computer -NewName $Newname –domainname $domain -OUPath $OUPath -Credential $domainuserid ' 
 Add-Content $file 'Remove-LocalUser -name $userid' 
 Add-Content $file 'Set-ExecutionPolicy restricted' 
-Add-Content $file 'del' -NoNewline
-Add-Content $file "$file" -NoNewline
-Add-Content $file '"'
+Add-Content $file 'del ' -NoNewline
+Add-Content $file "$file"'
 
 Add-Content $file 'shutdown -r -t 0' 
 
