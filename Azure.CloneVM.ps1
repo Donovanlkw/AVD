@@ -45,12 +45,6 @@ New-AzVM -ResourceGroupName $destinationResourceGroup -Location $location -VM $v
 
 
 ### === Powershell run inside the windwos 10.
-
-
-### === 1st reboot === ###
-
-
-
 ### Create a Powershell script file for configure after reboot
 $userid = "tmpadmin"
 $Password = "Password1"
@@ -70,12 +64,9 @@ Add-Content $file 'Set-ExecutionPolicy Unrestricted -force'
 Add-Content $file 'add-computer -NewName $Newname –domainname $domain -OUPath $OUPath -Credential $domainuserid ' 
 Add-Content $file 'Remove-LocalUser -name $userid' 
 Add-Content $file 'Set-ExecutionPolicy restricted' 
-
-
-Add-Content $file 'Unregister-ScheduledTask '  -NoNewline 
-Add-Content $file "$task " -NoNewline
-Add-Content $file '-Confirm:$false' 
-#Add-Content $file 'del $file ' 
+Add-Content $file 'del' -NoNewline
+Add-Content $file "$file" -NoNewline
+Add-Content $file '"'
 
 Add-Content $file 'shutdown -r -t 0' 
 
